@@ -6,7 +6,7 @@ import { ILogger } from './logger/logger.service.interface';
 import { TYPES } from './types';
 import { IExceptionFilter } from './errors/exception.filter.interface';
 import { PrismaService } from './database/prisma.service';
-import { IUsersController } from './users/controllers/users.controller.interface';
+import { IUsersController } from './domains/users/controllers/users.controller.interface';
 
 @injectable()
 export class App {

@@ -3,8 +3,8 @@ import { IUsersService } from './users.service.interface';
 import { User } from '@prisma/client';
 import { UserRegisterDto } from '../dto/user-register.dto';
 import { UserEntity } from '../user.entity';
-import { TYPES } from '../../types';
 import { IUsersRepository } from '../repository/users.repository.interface';
+import { TYPES } from '../../../types';
 
 @injectable()
 export class UsersService implements IUsersService {

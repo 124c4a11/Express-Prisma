@@ -8,12 +8,12 @@ import { ExceptionFilter } from './errors/exception.filter';
 import { IConfigService } from './config/config.service.interface';
 import { ConfigService } from './config/config.service';
 import { PrismaService } from './database/prisma.service';
-import { IUsersController } from './users/controllers/users.controller.interface';
-import { UsersController } from './users/controllers/users.controller';
-import { IUsersService } from './users/service/users.service.interface';
-import { UsersRepository } from './users/repository/users.repository';
-import { UsersService } from './users/service/users.service';
-import { IUsersRepository } from './users/repository/users.repository.interface';
+import { UsersController } from './domains/users/controllers/users.controller';
+import { IUsersController } from './domains/users/controllers/users.controller.interface';
+import { UsersRepository } from './domains/users/repository/users.repository';
+import { IUsersRepository } from './domains/users/repository/users.repository.interface';
+import { UsersService } from './domains/users/service/users.service';
+import { IUsersService } from './domains/users/service/users.service.interface';
 
 interface IBootstrap {
   app: App;
