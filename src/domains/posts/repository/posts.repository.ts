@@ -10,9 +10,20 @@ import { PostEntity } from '../post.entity';
 export class PostsRepository implements IPostsRepository {
   constructor(@inject(TYPES.PrismaService) private readonly prismaService: PrismaService) {}
 
-  async create({ title, authorId }: PostEntity): Promise<Post | null> {
+  async create({ title, authorIds }: PostEntity): Promise<Post | null> {
     try {
-      return await this.prismaService.client.post.create({ data: { title, authorId } });
+      return await this.prismaService.client.post.create({
+        data: {
+          title,
+          authors: {
+            create: authorIds.map((id) => ({
+              author: {
+                connect: { id },
+              },
+            })),
+          },
+        },
+      });
     } catch (err) {
       return null;
     }
@@ -20,10 +31,17 @@ export class PostsRepository implements IPostsRepository {
 
   async find(id: number): Promise<Post | null> {
     try {
-      return await this.prismaService.client.post.findFirst({
+      const findedPost = await this.prismaService.client.post.findFirst({
         where: { id },
-        include: { author: true },
+        include: { authors: { select: { author: true } } },
       });
+
+      const postWithCorrectAuthors = {
+        ...findedPost,
+        authors: findedPost?.authors.map(({ author }) => author),
+      };
+
+      return postWithCorrectAuthors as Post;
     } catch (error) {
       return null;
     }

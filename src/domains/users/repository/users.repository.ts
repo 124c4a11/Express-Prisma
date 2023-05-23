@@ -21,10 +21,17 @@ export class UsersRepository {
 
   async find(id: number): Promise<User | null> {
     try {
-      return await this.prismaService.client.user.findFirst({
+      const findedUser = await this.prismaService.client.user.findFirst({
         where: { id },
-        include: { posts: true },
+        include: { posts: { select: { post: true } } },
       });
+
+      const userWithCorrectPosts = {
+        ...findedUser,
+        posts: findedUser?.posts.map(({ post }) => post),
+      };
+
+      return userWithCorrectPosts as User;
     } catch (error) {
       return null;
     }

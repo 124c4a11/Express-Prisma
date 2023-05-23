@@ -10,8 +10,8 @@ import { PostEntity } from '../post.entity';
 export class PostsService implements IPostsService {
   constructor(@inject(TYPES.PostsRepository) private readonly postsRepository: IPostsRepository) {}
 
-  async create({ title, authorId }: CreatePostDto): Promise<Post | null> {
-    const newPost = new PostEntity(title, authorId);
+  async create({ title, authorIds }: CreatePostDto): Promise<Post | null> {
+    const newPost = new PostEntity(title, authorIds);
 
     return await this.postsRepository.create(newPost);
   }
