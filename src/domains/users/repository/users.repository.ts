@@ -21,7 +21,10 @@ export class UsersRepository {
 
   async find(id: number): Promise<User | null> {
     try {
-      return await this.prismaService.client.user.findFirst({ where: { id } });
+      return await this.prismaService.client.user.findFirst({
+        where: { id },
+        include: { posts: true },
+      });
     } catch (error) {
       return null;
     }

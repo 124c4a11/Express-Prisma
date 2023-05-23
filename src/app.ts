@@ -7,6 +7,7 @@ import { TYPES } from './types';
 import { IExceptionFilter } from './errors/exception.filter.interface';
 import { PrismaService } from './database/prisma.service';
 import { IUsersController } from './domains/users/controllers/users.controller.interface';
+import { IPostsController } from './domains/posts/controller/posts.controller.interface';
 
 @injectable()
 export class App {
@@ -19,6 +20,7 @@ export class App {
     @inject(TYPES.ExceptionFilter) private exceptionFilter: IExceptionFilter,
     @inject(TYPES.PrismaService) private prismaService: PrismaService,
     @inject(TYPES.UsersController) private usersController: IUsersController,
+    @inject(TYPES.PostsController) private readonly postsController: IPostsController,
   ) {
     this.app = express();
     this.port = 8000;
@@ -30,6 +32,7 @@ export class App {
 
   useRoutes(): void {
     this.app.use('/users', this.usersController.router);
+    this.app.use('/posts', this.postsController.router);
   }
 
   useExceptionFilters(): void {
