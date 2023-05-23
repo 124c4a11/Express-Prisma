@@ -6,6 +6,7 @@ import { ILogger } from './logger/logger.service.interface';
 import { TYPES } from './types';
 import { IExceptionFilter } from './errors/exception.filter.interface';
 import { PrismaService } from './database/prisma.service';
+import { IUsersController } from './users/controllers/users.controller.interface';
 
 @injectable()
 export class App {
@@ -17,6 +18,7 @@ export class App {
     @inject(TYPES.Logger) private loggerService: ILogger,
     @inject(TYPES.ExceptionFilter) private exceptionFilter: IExceptionFilter,
     @inject(TYPES.PrismaService) private prismaService: PrismaService,
+    @inject(TYPES.UsersController) private usersController: IUsersController,
   ) {
     this.app = express();
     this.port = 8000;
@@ -26,7 +28,9 @@ export class App {
     this.app.use(json());
   }
 
-  // useRoutes(): void {}
+  useRoutes(): void {
+    this.app.use('/users', this.usersController.router);
+  }
 
   useExceptionFilters(): void {
     this.app.use(this.exceptionFilter.catch.bind(this.exceptionFilter));
@@ -34,7 +38,7 @@ export class App {
 
   async init(): Promise<void> {
     this.useMiddleware();
-    // this.useRoutes();
+    this.useRoutes();
     this.useExceptionFilters();
 
     await this.prismaService.connect();

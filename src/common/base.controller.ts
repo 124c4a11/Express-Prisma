@@ -5,7 +5,7 @@ import { ExpressReturnType, IControllerRoute } from './route.interface';
 
 @injectable()
 export abstract class BaseController {
-  _router: Router;
+  private _router: Router;
 
   constructor(private logger: ILogger) {
     this._router = Router();
