@@ -20,8 +20,8 @@ export class UsersService implements IUsersService {
     return await this.usersRepository.find(id);
   }
 
-  async update(id: number, { name, email, teacherId }: UserRegisterDto): Promise<User | null> {
-    return await this.usersRepository.update(id, { name, email, teacherId });
+  async update(id: number, { name, email, followedByIDs }: UserRegisterDto): Promise<User | null> {
+    return await this.usersRepository.update(id, { name, email, followedByIDs });
   }
 
   async delete(id: number): Promise<User | null> {

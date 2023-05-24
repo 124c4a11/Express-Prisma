@@ -1,4 +1,4 @@
-import { IsEmail, IsNumber, IsOptional, IsString } from 'class-validator';
+import { IsArray, IsEmail, IsNumber, IsOptional, IsString } from 'class-validator';
 
 export class UserRegisterDto {
   @IsString({ message: 'Name is wrong!' })
@@ -8,6 +8,7 @@ export class UserRegisterDto {
   email: string;
 
   @IsOptional()
-  @IsNumber({}, { message: 'SuccessorId is wrong!' })
-  teacherId?: number;
+  @IsArray()
+  @IsNumber({}, { each: true, message: 'Followed By is wrong!' })
+  followedByIDs?: number[];
 }

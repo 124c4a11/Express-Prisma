@@ -2,7 +2,7 @@ export class UserEntity {
   constructor(
     private readonly _name: string,
     private readonly _email: string,
-    private readonly _successorId?: number,
+    private readonly _followedByIDs?: number[],
   ) {}
 
   get name(): string {
@@ -13,7 +13,7 @@ export class UserEntity {
     return this._email;
   }
 
-  get successorId(): number | undefined {
-    return this._successorId;
+  get followedByIDs(): number[] | undefined {
+    return this._followedByIDs;
   }
 }

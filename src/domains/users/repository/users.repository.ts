@@ -25,8 +25,8 @@ export class UsersRepository {
         where: { id },
         include: {
           posts: true,
-          teacher: true,
-          students: true,
+          followedBy: true,
+          following: true,
         },
       });
     } catch (error) {
@@ -34,15 +34,21 @@ export class UsersRepository {
     }
   }
 
-  async update(id: number, { name, email, teacherId }: UserRegisterDto): Promise<User | null> {
+  async update(id: number, { name, email, followedByIDs }: UserRegisterDto): Promise<User | null> {
     try {
       return await this.prismaService.client.user.update({
         where: { id },
-        data: { name, email, teacherId },
+        data: {
+          name,
+          email,
+          followedBy: {
+            connect: followedByIDs?.map((id) => ({ id })),
+          },
+        },
         include: {
           posts: true,
-          teacher: true,
-          students: true,
+          followedBy: true,
+          following: true,
         },
       });
     } catch (err) {
