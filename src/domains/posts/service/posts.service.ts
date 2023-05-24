@@ -25,6 +25,6 @@ export class PostsService implements IPostsService {
   }
 
   async delete(id: number): Promise<Post | null> {
-    return null;
+    return await this.postsRepository.delete(id);
   }
 }

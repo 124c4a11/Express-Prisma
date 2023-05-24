@@ -27,6 +27,11 @@ export class PostsController extends BaseController implements IPostsController 
         method: 'get',
         func: this.find,
       },
+      {
+        path: '/:id',
+        method: 'delete',
+        func: this.delete,
+      },
     ]);
   }
 
@@ -62,7 +67,17 @@ export class PostsController extends BaseController implements IPostsController 
     this.ok(res, 'Posts Controller');
   }
 
-  async delete(req: Request, res: Response, next: NextFunction): Promise<void> {
-    this.ok(res, 'Posts Controller');
+  async delete(
+    { params }: Request<{ id?: string }>,
+    res: Response,
+    next: NextFunction,
+  ): Promise<void> {
+    const deletedPost = await this.postsService.delete(Number(params.id));
+
+    if (!deletedPost) {
+      return next(new HTTPError(404, 'Post is not found!', 'PostController'));
+    }
+
+    this.ok(res, deletedPost);
   }
 }

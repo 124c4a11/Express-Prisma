@@ -16,11 +16,7 @@ export class PostsRepository implements IPostsRepository {
         data: {
           title,
           authors: {
-            create: authorIds.map((id) => ({
-              author: {
-                connect: { id },
-              },
-            })),
+            connect: authorIds.map((id) => ({ id })),
           },
         },
       });
@@ -31,17 +27,10 @@ export class PostsRepository implements IPostsRepository {
 
   async find(id: number): Promise<Post | null> {
     try {
-      const findedPost = await this.prismaService.client.post.findFirst({
+      return await this.prismaService.client.post.findFirst({
         where: { id },
-        include: { authors: { select: { author: true } } },
+        include: { authors: true },
       });
-
-      const postWithCorrectAuthors = {
-        ...findedPost,
-        authors: findedPost?.authors.map(({ author }) => author),
-      };
-
-      return postWithCorrectAuthors as Post;
     } catch (error) {
       return null;
     }
@@ -52,6 +41,10 @@ export class PostsRepository implements IPostsRepository {
   }
 
   async delete(id: number): Promise<Post | null> {
-    return null;
+    try {
+      return await this.prismaService.client.post.delete({ where: { id } });
+    } catch (error) {
+      return null;
+    }
   }
 }
