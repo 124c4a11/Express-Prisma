@@ -79,7 +79,7 @@ export class UsersController extends BaseController implements IUsersController 
     const updatedUser = await this.usersService.update(Number(params.id), body);
 
     if (!updatedUser) {
-      return next(new HTTPError(404, 'Record to update not found.', 'UsersController'));
+      return next(new HTTPError(400, 'Failed to update user!', 'UsersController'));
     }
 
     this.ok(res, updatedUser);

@@ -23,18 +23,25 @@ export class UsersRepository {
     try {
       return await this.prismaService.client.user.findFirst({
         where: { id },
-        include: { posts: true },
+        include: {
+          posts: true,
+          successor: true,
+        },
       });
     } catch (error) {
       return null;
     }
   }
 
-  async update(id: number, { name, email }: UserRegisterDto): Promise<User | null> {
+  async update(id: number, { name, email, successorId }: UserRegisterDto): Promise<User | null> {
     try {
       return await this.prismaService.client.user.update({
         where: { id },
-        data: { name, email },
+        data: { name, email, successorId },
+        include: {
+          posts: true,
+          successor: true,
+        },
       });
     } catch (err) {
       return null;

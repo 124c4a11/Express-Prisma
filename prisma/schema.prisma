@@ -11,10 +11,13 @@ datasource db {
 }
 
 model User {
-  id    Int    @id @default(autoincrement())
-  name  String
-  email String @unique
-  posts Post[]
+  id          Int    @id @default(autoincrement())
+  name        String
+  email       String @unique
+  successorId Int?   @unique
+  successor   User?  @relation("BlogOwnerHistory", fields: [successorId], references: [id])
+  predecessor User?  @relation("BlogOwnerHistory")
+  posts       Post[]
 }
 
 model Post {

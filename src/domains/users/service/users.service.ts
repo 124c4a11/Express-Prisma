@@ -10,8 +10,8 @@ import { TYPES } from '../../../types';
 export class UsersService implements IUsersService {
   constructor(@inject(TYPES.UsersRepository) private readonly usersRepository: IUsersRepository) {}
 
-  async create({ name, email }: UserRegisterDto): Promise<User | null> {
-    const newUser = new UserEntity(name, email);
+  async create({ name, email, successorId }: UserRegisterDto): Promise<User | null> {
+    const newUser = new UserEntity(name, email, successorId);
 
     return await this.usersRepository.create(newUser);
   }
@@ -20,8 +20,8 @@ export class UsersService implements IUsersService {
     return await this.usersRepository.find(id);
   }
 
-  async update(id: number, { name, email }: UserRegisterDto): Promise<User | null> {
-    return await this.usersRepository.update(id, { name, email });
+  async update(id: number, { name, email, successorId }: UserRegisterDto): Promise<User | null> {
+    return await this.usersRepository.update(id, { name, email, successorId });
   }
 
   async delete(id: number): Promise<User | null> {
