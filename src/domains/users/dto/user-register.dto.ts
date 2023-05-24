@@ -9,5 +9,5 @@ export class UserRegisterDto {
 
   @IsOptional()
   @IsNumber({}, { message: 'SuccessorId is wrong!' })
-  successorId?: number;
+  teacherId?: number;
 }
